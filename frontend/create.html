@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create</title>
+
+    <style>
+        body {
+            background-image:
+                    linear-gradient(
+                            rgba(255, 255, 255, 0.65),
+                            rgba(255, 255, 255, 0.65)
+                    ),
+                    url("../images/newspaper.png");
+
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* Unified input appearance */
+        .create-box-input,
+        .create-box-input-product,
+        .price-input {
+            box-sizing: border-box;
+            font-family: 'Trebuchet MS', Arial, sans-serif;
+            width: 500px;
+            max-width: 100%;
+            border: 2px solid #000000;
+            border-radius: 8px;
+            font-size: 16px;
+            margin: 4px;
+
+            transition:
+                    border-color 0.25s ease,
+                    box-shadow 0.25s ease;
+        }
+
+        /* Ordinary input fields */
+        .create-box-input,
+        .create-box-input-product {
+            display: block;
+            padding: 12px;
+            background-color: white;
+        }
+
+        /* Unified hover effect */
+        .create-box-input:hover,
+        .create-box-input-product:hover,
+        .price-input:hover {
+            border-color: #555555;
+            box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Unified focus effect for ordinary inputs */
+        .create-box-input:focus,
+        .create-box-input-product:focus {
+            outline: none;
+            border-color: #222222;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Price field container */
+        .price-input {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0 12px;
+            background-color: white;
+        }
+
+        .price-input span {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .price-input input {
+            box-sizing: border-box;
+            flex: 1;
+            min-width: 0;
+            width: 100%;
+            padding: 12px 0;
+            border: none;
+            outline: none;
+            background: transparent;
+            font-family: inherit;
+            font-size: 16px;
+        }
+
+        /* Highlight the entire price field */
+        .price-input:focus-within {
+            border-color: #222222;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .bordered-box {
+            border: 2px solid #000000;
+            text-align: center;
+            padding: 10px;
+            background-color: black;
+            color: white;
+            margin: 5px;
+            border-radius: 16px;
+        }
+
+        /* Create button */
+        .create-button {
+            padding: 12px 45px;
+            background-color: #1cbc1d;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: inline-block;
+            text-decoration: none;
+            font-family: inherit;
+            transition:
+                    transform 0.15s ease,
+                    background-color 0.15s ease;
+        }
+
+        .create-button:hover {
+            transform: scale(1.01);
+            background-color: #148515;
+        }
+
+        .create-button:active {
+            transform: scale(0.96);
+            background-color: #148515;
+        }
+
+        /* Clear Button */
+        .clear-button {
+            padding: 12px 45px;
+            background-color: #d21420;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: inline-block;
+            text-decoration: none;
+            font-family: inherit;
+            transition:
+                    transform 0.15s ease,
+                    background-color 0.15s ease;
+        }
+
+        .clear-button:hover {
+            transform: scale(1.01);
+            background-color: #9d0f18;
+        }
+
+        .clear-button:active {
+            transform: scale(0.96);
+            background-color: #9d0f18;
+        }
+
+        /* Back Button */
+        .back-button {
+            padding: 12px 45px;
+            background-color: #868786;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: inline-block;
+            text-decoration: none;
+            font-family: inherit;
+            transition:
+                    transform 0.15s ease,
+                    background-color 0.15s ease;
+        }
+
+        .back-button:hover {
+            transform: scale(1.01);
+            background-color: #5a5b5a;
+        }
+
+        .back-button:active {
+            transform: scale(0.96);
+            background-color: #5a5b5a;
+        }
+
+        .panel {
+            box-sizing: border-box;
+            background-color: #ffffff;
+            border: 2px solid black;
+            border-radius: 16px;
+            margin: 50px 4px 4px;
+            padding: 12px;
+
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 8px;
+        }
+
+        .product-input-panel {
+            box-sizing: border-box;
+            background-color: #ffffff;
+            border: 2px solid black;
+            border-radius: 12px;
+            margin: 0;
+            padding: 6px;
+            width: 150px;
+        }
+
+        .title-panel {
+            box-sizing: border-box;
+            text-align: center;
+            background-color: #000000;
+            border: 2px solid black;
+            border-radius: 16px;
+            margin: 1px 0 12px;
+            padding: 6px;
+            width: 100%;
+            color: white;
+        }
+
+        #product-name,
+        #product-id,
+        #product-price,
+        #product-stock {
+            white-space: pre-line;
+        }
+
+        /* Responsive layout */
+        @media (max-width: 540px) {
+            .create-box-input,
+            .create-box-input-product,
+            .price-input {
+                width: 100%;
+                margin: 4px 0;
+            }
+
+            .button {
+                padding: 12px 20px;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<h1
+        style="font-family: 'Trebuchet MS', Arial, sans-serif; font-size: 50px; color: white"
+        class="bordered-box">
+    StockScan
+</h1>
+
+<h1
+        style="font-family: 'Trebuchet MS', Arial, sans-serif; font-size: 30px; color: white"
+        class="bordered-box">
+    The Database for your products!
+</h1>
+
+<div class="panel">
+
+    <h2
+            style="font-family: 'Trebuchet MS', Arial, sans-serif; font-size: 30px; color: white; margin: 1px"
+            class="title-panel">
+        Create Product
+    </h2>
+
+    <h2
+            style="font-family: 'Trebuchet MS', Arial, sans-serif; font-size: 15px; color: black"
+            class="product-input-panel">
+        Product Name:
+    </h2>
+
+    <input
+            id="product-name"
+            class="create-box-input-product"
+            type="search"
+            placeholder="Product Name (Eg. Gaming Mouse)">
+
+    <h2
+            style="font-family: 'Trebuchet MS', Arial, sans-serif; font-size: 15px; color: black"
+            class="product-input-panel">
+        Product ID:
+    </h2>
+
+    <input
+            id="product-id"
+            class="create-box-input"
+            type="number"
+            placeholder="Product ID"
+            step="1">
+
+    <h6
+            style="font-family: 'Trebuchet MS', Arial, sans-serif; font-size: 15px; color: black; margin-top: 1px">
+        Note: ID must be unique
+    </h6>
+
+    <h2
+            style="font-family: 'Trebuchet MS', Arial, sans-serif; font-size: 15px; color: black"
+            class="product-input-panel">
+        Price:
+    </h2>
+
+    <div class="price-input">
+        <span>$</span>
+        <input
+                id="product-price"
+                type="number"
+                placeholder="Product Price"
+                step="0.01">
+    </div>
+
+    <h2
+            style="font-family: 'Trebuchet MS', Arial, sans-serif; font-size: 15px; color: black"
+            class="product-input-panel">
+        Stock:
+    </h2>
+
+    <input
+            id="product-stock"
+            class="create-box-input"
+            type="number"
+            placeholder="Product Stock"
+            step="1">
+
+    <button
+            class="create-button"
+            style="font-family: 'Trebuchet MS', Arial, sans-serif; font-size: 20px; color: white"
+            onclick="handleCreateProduct()">
+        Create Product
+    </button>
+
+    <button
+            class="clear-button"
+            style="font-family: 'Trebuchet MS', Arial, sans-serif; font-size: 20px; color: white"
+            onclick="clearAllInputs()">
+        Clear
+    </button>
+
+    <button
+            class="back-button"
+            style="font-family: 'Trebuchet MS', Arial, sans-serif; font-size: 20px; color: white"
+            onclick="window.location.href='inventory.html'">
+        &lt; Back
+    </button>
+
+</div>
+
+<p id="result"></p>
+
+<script src="JavaScript-Modules/create_products.js"></script>
+
+</body>
+</html>

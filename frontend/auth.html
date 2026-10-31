@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Authentication</title>
+</head>
+<body>
+    <style>
+        body {
+            background-image:
+                    linear-gradient(
+                            rgba(255, 255, 255, 0.65),
+                            rgba(255, 255, 255, 0.65)
+                    ),
+                    url("../images/newspaper.png");
+
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .auth-panel {
+            box-sizing: border-box;
+            background-color: #ffffff;
+            border: 2px solid black;
+            border-radius: 16px;
+            margin: 50px 4px 4px;
+            padding: 12px;
+
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 8px;
+        }
+
+        .bordered-box {
+            border: 2px solid #000000;
+            text-align: center;
+            padding: 10px;
+            background-color: black;
+            color: white;
+            margin: 1px;
+            border-radius: 16px;
+        }
+
+        .auth-input {
+            box-sizing: border-box;
+            font-family: 'Trebuchet MS', Arial, sans-serif;
+            display: block;
+            padding: 12px;
+            width: 500px;
+            border: 2px solid #000000;
+            border-radius: 8px;
+            font-size: 16px;
+            margin: 4px;
+
+            transition: border-color 0.25s ease,
+            box-shadow 0.25s ease;
+        }
+
+        .auth-input:hover {
+            border-color: #555555;
+            box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .auth-input:focus {
+            outline: none;
+            border-color: #222222;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .login {
+            padding: 10px 16px;
+            background-color: #100b8c;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: inline-block;
+            text-decoration: none;
+            font-size: 20px;
+            font-family: 'Trebuchet MS', Arial, sans-serif;
+            transition: transform 0.15s ease, background-color 0.15s ease;
+        }
+
+        .login:hover {
+            transform: scale(1.01);
+            background-color: #080646;
+        }
+
+        .login:active {
+            transform: scale(0.96);
+            background-color: #080646;
+        }
+    </style>
+
+    <h1 style="font-family: 'Trebuchet MS', Arial, sans-serif; font-size: 30px; color: white" class="bordered-box">Login to StockScan</h1>
+
+    <div class="auth-panel">
+        <label for="username-input-id"></label><input class="auth-input" type="search" placeholder="Username..." id="username-input-id">
+        <label for="password-input-id"></label><input class="auth-input" type="search" placeholder="Password..." id="password-input-id">
+
+        <button class="login" onclick="loginUser()">
+            Login
+        </button>
+    </div>
+
+    <script src="JavaScript-Modules/auth.js"></script>
+</body>
+</html>

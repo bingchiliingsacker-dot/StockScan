@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>StockScan</title>
+</head>
+<body>
+    <!--Title-->
+    <h1 style="font-family: 'Trebuchet MS', Arial, sans-serif; font-size: 50px; color: white" class="bordered-box">StockScan</h1>
+
+    <h4 style="font-family: 'Trebuchet MS', Arial, sans-serif; font-size: 30px; color: white" class="bordered-box">The Database for your products!</h4>
+
+    <label>
+        <!--Searching logic-->
+        <input class="search-box" type="search" placeholder=" [/] Search Products..." id="search-box-input">
+    </label>
+
+    <!--Buttons-->
+    <button class="id-search-button" onclick="searchProduct('id')">
+        Search ID
+    </button>
+
+    <button class="name-search-button" onclick="searchProduct('name')">
+        Search Name
+    </button>
+
+    <a href="create.html" class="create-button">+ Create Product</a>
+
+    <section id="result"></section>
+
+    <table id="product-list">
+        <thead>
+            <tr>
+                <th>Product Name:</th>
+                <th>Product ID:</th>
+                <th>Price:</th>
+                <th>Stock:</th>
+                <th>Actions:</th>
+            </tr>
+        </thead>
+        <tbody id="product-rows"></tbody>
+    </table>
+
+    <style>
+        body {
+            background-image:
+                linear-gradient(
+                    rgba(255, 255, 255, 0.65),
+                    rgba(255, 255, 255, 0.65)
+                ),
+                url("../images/newspaper.png");
+
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .search-box {
+            box-sizing: border-box;
+            font-family: 'Trebuchet MS', Arial, sans-serif;
+            display: block;
+            padding: 12px;
+            width: 500px;
+            border: 2px solid #000000;
+            border-radius: 8px;
+            font-size: 16px;
+            margin: 4px;
+
+            transition: border-color 0.25s ease,
+            box-shadow 0.25s ease;
+        }
+
+        .search-box:hover {
+            border-color: #555555;
+            box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #222222;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .id-search-button {
+            padding: 10px 16px;
+            background-color: #100b8c;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: inline-block;
+            text-decoration: none;
+            font-size: 20px;
+            font-family: 'Trebuchet MS', Arial, sans-serif;
+            transition: transform 0.15s ease, background-color 0.15s ease;
+        }
+
+        .name-search-button {
+            padding: 10px 16px;
+            background-color: #2e55d1;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: inline-block;
+            text-decoration: none;
+            font-size: 20px;
+            font-family: 'Trebuchet MS', Arial, sans-serif;
+            transition: transform 0.15s ease, background-color 0.15s ease;
+        }
+
+        .create-button {
+            padding: 10px 16px;
+            background-color: #1cbc1d;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: inline-block;
+            text-decoration: none;
+            font-size: 20px;
+            font-family: 'Trebuchet MS', Arial, sans-serif;
+            margin-left: 55px;
+            transition: transform 0.15s ease, background-color 0.15s ease;
+        }
+
+        .bordered-box {
+            border: 2px solid #000000;
+            text-align: center;
+            padding: 10px;
+            background-color: black;
+            color: white;
+            margin: 5px;
+            border-radius: 16px;
+        }
+
+        .id-search-button:hover {
+            transform: scale(1.03);
+            background-color: #09064a;
+        }
+
+        .id-search-button:active {
+            transform: scale(0.93);
+            background-color: #09064a;
+        }
+
+        .name-search-button:hover {
+            transform: scale(1.03);
+            background-color: #203b90;
+        }
+
+        .name-search-button:active {
+            transform: scale(0.93);
+            background-color: #203b90;
+        }
+
+        .create-button:hover {
+            transform: scale(1.03);
+            background-color: #148515;
+        }
+
+        .create-button:active {
+            transform: scale(0.93);
+            background-color: #148515;
+        }
+
+        .button-configs {
+            background: transparent;
+            border: none;
+            padding: 6px;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+
+        .button-configs img {
+            display: block;
+            object-fit: contain;
+        }
+
+        .button-configs:hover {
+            background-color: #ffe5e5;
+        }
+
+        .product-input {
+            box-sizing: border-box;
+            padding: 10px;
+            width: 100px;
+            border: 2px solid #000000;
+            border-radius: 8px;
+            font-size: 16px;
+            margin: 4px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .product-input:hover {
+            border-color: #555555;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        #result {
+            white-space: pre-line;
+        }
+
+        #product-list {
+            width: 800px;
+            table-layout: fixed;
+
+            border-collapse: separate;
+            border-spacing: 0;
+
+            border: 1px solid black;
+            border-radius: 12px;
+            overflow: hidden;
+
+            margin: 20px auto;
+
+            font-family: 'Trebuchet MS', Arial, sans-serif;
+        }
+
+        #product-list th,
+        #product-list td {
+            padding: 12px 20px;
+            width: 210px;
+            text-align: center;
+            border: 2px solid black;
+            background: white;
+        }
+
+        /* Table header cells */
+        #product-list th {
+            background-color: black;
+            color: white;
+        }
+
+        /* Table body cells */
+        #product-list td {
+            background-color: #f2f2f2;
+            color: black;
+        }
+
+        /* First column: Product Name */
+        #product-list td:nth-child(1) {
+            background-color: #1ce39b;
+        }
+
+        /* Second column: Product ID */
+        #product-list td:nth-child(2) {
+            background-color: #e8f5e9;
+        }
+
+        /* Third column: Price */
+        #product-list td:nth-child(3) {
+            background-color: #fff3e0;
+        }
+
+        /* Fourth column: Stock */
+        #product-list td:nth-child(4) {
+            background-color: #f3e5f5;
+        }
+
+        /* Fifth column: Actions */
+        #product-list td:nth-child(5) {
+            background-color: #ffffff;
+        }
+
+        #result {
+            font-family: 'Trebuchet MS', Arial, sans-serif;
+        }
+    </style>
+
+    <script src="JavaScript-Modules/request_api.js"></script>
+
+    <script src="JavaScript-Modules/keyboard_events.js"></script>
+
+</body>
+</html>
